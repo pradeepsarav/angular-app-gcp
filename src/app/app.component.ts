@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Hire Dev Angular App';
+  title = 'Hire Dev Invalidation For Angular App';
 }

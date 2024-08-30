@@ -36,7 +36,7 @@ options:
 # Define substitution variables
 substitutions:
   _BUCKET_NAME: hire-dev-angular-app
-  _CDN_NAME: hire-dev-angular-app
+  _CDN_NAME: hire-dev-angular-lb
 
 # Set timeout for the build (optional)
 timeout: "1800s"
