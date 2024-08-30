@@ -1,0 +1,32 @@
+steps:
+  # Install dependencies
+  - name: 'node:18'
+    entrypoint: 'npm'
+    args: ['install']
+
+  # Build the Angular app
+  - name: 'node:18'
+    entrypoint: 'npm'
+    args: ['run', 'build']
+
+  # Copy build output to GCS bucket
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'cp', '-r', 'dist/angular-app-gcp/browser/*', 'gs://${_BUCKET_NAME}/']
+
+  # Invalidate CDN cache
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud compute url-maps invalidate-cdn-cache ${_CDN_NAME} \
+          --path "/*" \
+          --async
+
+# Define substitution variables
+substitutions:
+  _BUCKET_NAME: hire-dev-angular-app
+  _CDN_NAME: hire-dev-angular-app
+
+# Set timeout for the build (optional)
+timeout: '1800s'
